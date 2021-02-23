@@ -1,0 +1,13 @@
+server:
+  port: 7456
+
+vpc:
+  temp-path: /Users/xuliduo/workspaces/IdeaProjects/ows-ffmpeg-demo/tmp
+  ffmpeg-configs:
+    video:
+      bit-rate: 500
+      frame-rate: 10
+
+logging:
+  level:
+    .: debug
