@@ -38,40 +38,11 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/ws.schild/jave-core -->
         <dependency>
-            <groupId>ws.schild</groupId>
-            <artifactId>jave-core</artifactId>
-            <version>3.0.1</version>
+            <groupId>net.bramp.ffmpeg</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <version>0.6.2</version>
         </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>ws.schild</groupId>-->
-        <!--            <artifactId>jave-nativebin-linux64</artifactId>-->
-        <!--            <version>3.0.1</version>-->
-        <!--        </dependency>-->
-
-        <!--        <dependency>-->
-        <!--            <groupId>ws.schild</groupId>-->
-        <!--            <artifactId>jave-nativebin-win64</artifactId>-->
-        <!--            <version>3.0.1</version>-->
-        <!--        </dependency>-->
-
-        <dependency>
-            <groupId>ws.schild</groupId>
-            <artifactId>jave-nativebin-osx64</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/ws.schild/jave-nativebin-linux-arm64 -->
-        <!--        <dependency>-->
-        <!--            <groupId>ws.schild</groupId>-->
-        <!--            <artifactId>jave-nativebin-linux-arm64</artifactId>-->
-        <!--            <version>3.0.1</version>-->
-        <!--        </dependency>-->
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

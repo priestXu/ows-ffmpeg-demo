@@ -10,4 +10,7 @@ vpc:
 
 logging:
   level:
-    .: debug
+    .: DEBUG
+    net:
+      bramp:
+        ffmpeg: ERROR

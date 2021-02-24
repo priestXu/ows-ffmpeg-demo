@@ -19,10 +19,18 @@ class VideoProcessorProperties {
     @Valid
     var ffmpegConfigs: FFmpegConfigs = FFmpegConfigs()
 
-    // 抽样验证图片，最大20个
-    // 系统会生成 2X2的title图，然后使用title图去进行内容审核
-    @Range(min = 1, max = 20)
-    var sampleSize: Int = 10
+    // 抽样验证图片，最大10个
+    // 系统会生成 2XN的title图，然后使用title图去进行内容审核
+    @Range(min = 1, max = 10)
+    var sampleNum: Int = 8
+
+    // 缩略图，最多5个
+    // 系统会采样包含第0秒开始均分的n秒缩略图
+    @Range(min = 1, max = 5)
+    var thumbnailNum: Int = 3
+
+    // 缩略图的copy size
+    var thumbnailSize: String = "200:200"
 
     // 转码后的临时文件路径
     @NotEmpty
@@ -53,7 +61,7 @@ class FFmpegConfigs {
 class Audio {
     // 音频编码
     @NotEmpty
-    var codec: String = "ac3"
+    var codec: String = "aac"
 
     // 音频比特率 默认64kbit/s
     @NotNull
