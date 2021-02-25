@@ -1,8 +1,14 @@
 package com.goodsogood.ows.helper.moderation.huawei
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.goodsogood.ows.component.VideoProcessorProperties
 import com.goodsogood.ows.helper.ResponseProcessUtils
+import com.goodsogood.ows.helper.bean.ImageCheckResult
 import com.huawei.ais.sdk.AisAccess
 import org.apache.commons.codec.binary.Base64
 import org.apache.commons.io.FileUtils
@@ -22,6 +28,14 @@ class ModerationImageContent(videoProcessorProperties: VideoProcessorProperties)
     private var service: AisAccess
     private var properties: VideoProcessorProperties = videoProcessorProperties
     private val imageUri = "/v1.0/moderation/image"
+    private var mapper = ObjectMapper().registerKotlinModule().apply {
+        this.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        // Ignore null values when writing json.
+        this.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        // Write times as a String instead of a Long so its human readable.
+        this.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        this.registerModule(JavaTimeModule())
+    }
 
     /**
      * 为枚举开放一个查询方法
@@ -42,7 +56,7 @@ class ModerationImageContent(videoProcessorProperties: VideoProcessorProperties)
     }
 
     @Throws(IOException::class, NullPointerException::class)
-    fun imageContentCheck(image: File): Any? {
+    fun imageContentCheck(image: File): ImageCheckResult? {
         if (!image.exists() || !image.isFile) {
             throw IOException("输入的图片文件不存在")
         }
@@ -60,11 +74,11 @@ class ModerationImageContent(videoProcessorProperties: VideoProcessorProperties)
         val stringEntity = StringEntity(ObjectMapper().writeValueAsString(data), Charsets.UTF_8)
         val response = service.post(imageUri, stringEntity)
         // 验证服务调用返回的状态是否成功，如果为200, 为成功, 否则失败。
-        if (ResponseProcessUtils.isRespondedOK(response)) {
+        if (!ResponseProcessUtils.isRespondedOK(response)) {
             log.error("请求失败...")
             return null
         }
         // 获得结果
-        return ResponseProcessUtils.processResponse(response)
+        return mapper.readValue(ResponseProcessUtils.processResponse(response), ImageCheckResult::class.java)
     }
 }
