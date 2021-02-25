@@ -27,7 +27,13 @@ class OwsFfmpegDemoApplicationTests {
     lateinit var videoProcessorProperties: VideoProcessorProperties
 
     val fileName: String = "output"
+
+    // 跳舞
     val sourceFile = "/Users/xuliduo/Downloads/Phut_Hon_Phao_KAIZ_Remix_1080p.mp4"
+    // 领导人
+    // val sourceFile = "/Users/xuliduo/Downloads/中华人民共和国成立70周年_中共中央总书记国家主席中央军委主席习近平发表重要讲话_CCTV_1080p.mp4"
+    // pron
+    // val sourceFile = "/Users/xuliduo/Downloads/1080P_8000K_341610861.mp4"
     val titleFile = "/Users/xuliduo/workspaces/IdeaProjects/ows-ffmpeg-demo/tmp/output/title/tile.png"
 
     @Test
@@ -40,9 +46,9 @@ class OwsFfmpegDemoApplicationTests {
         stopWatch.start()
         log.info("全部任务开始")
         this.testMakeTitle()
-        //  check
         this.testCompress()
         this.testThumbnail()
+        this.testImageContentCheck()
         log.info("耗时${stopWatch}")
         stopWatch.stop()
     }
@@ -113,11 +119,8 @@ class OwsFfmpegDemoApplicationTests {
         val stopWatch = StopWatch()
         stopWatch.start()
         log.info("验证")
-        log.info(
-            ModerationImageContent(videoProcessorProperties).imageContentCheck(
-                File(titleFile)
-            )
-        )
+        val imageCheckResult = ModerationImageContent(videoProcessorProperties).imageContentCheck(File(titleFile))
+        log.info(imageCheckResult?.result?.suggestion)
         log.info("耗时${stopWatch}")
         stopWatch.stop()
     }

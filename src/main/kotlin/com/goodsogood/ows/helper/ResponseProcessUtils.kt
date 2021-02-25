@@ -25,7 +25,7 @@ object ResponseProcessUtils {
      * @param response 响应对象
      */
     fun processResponseStatus(response: HttpResponse) {
-        println(response.statusLine.statusCode)
+        logger.debug("statusCode=${response.statusLine.statusCode}")
     }
 
     /**
@@ -37,7 +37,7 @@ object ResponseProcessUtils {
      */
     fun isRespondedOK(response: HttpResponse): Boolean {
         val statusCode = response.statusLine.statusCode
-        println(statusCode)
+        logger.debug("statusCode=${statusCode}")
         return HttpStatus.SC_OK == statusCode
     }
 
@@ -51,7 +51,7 @@ object ResponseProcessUtils {
     @Throws(UnsupportedOperationException::class, IOException::class)
     fun processResponse(response: HttpResponse): String {
         val str = HttpClientUtils.convertStreamToString(response.entity.content)
-        println(str)
+        logger.debug("response=${str}")
         return str
     }
 
@@ -92,7 +92,6 @@ object ResponseProcessUtils {
             fc = FileOutputStream(fileName).channel
             fc.write(bb)
         } catch (e: Exception) {
-            e.printStackTrace()
             logger.error("Failed to generate file is faild, cause {}", e)
         } finally {
             fc?.close()
