@@ -59,7 +59,7 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/ais-java-client-2.0.0.jar</systemPath>
         </dependency>
-        <!-- 华为sdk使用了http client-->
+        <!-- 华为sdk使用了http client  / joda-time-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -75,7 +75,12 @@
             <artifactId>httpmime</artifactId>
             <version>4.4.1</version>
         </dependency>
-        <!-- http 结束 -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.10.8</version>
+        </dependency>
+        <!-- 华为内容审核sdk依赖 结束 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
