@@ -7,6 +7,16 @@ vpc:
     video:
       bit-rate: 500
       frame-rate: 10
+  huawei:
+    ak: ""
+    sk: ""
+    region: "cn-north-4"
+    categories:
+      - politics
+      - terrorism
+      - porn
+      - ad
+
 
 logging:
   level:

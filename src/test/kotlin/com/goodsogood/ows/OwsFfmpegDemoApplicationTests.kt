@@ -2,6 +2,7 @@ package com.goodsogood.ows
 
 import com.goodsogood.ows.component.VideoProcessorProperties
 import com.goodsogood.ows.helper.VideoProcessor
+import com.goodsogood.ows.helper.moderation.huawei.ModerationImageContent
 import net.bramp.ffmpeg.FFmpegUtils
 import net.bramp.ffmpeg.FFprobe
 import net.bramp.ffmpeg.probe.FFmpegProbeResult
@@ -26,6 +27,8 @@ class OwsFfmpegDemoApplicationTests {
     lateinit var videoProcessorProperties: VideoProcessorProperties
 
     val fileName: String = "output"
+    val sourceFile = "/Users/xuliduo/Downloads/Phut_Hon_Phao_KAIZ_Remix_1080p.mp4"
+    val titleFile = "/Users/xuliduo/workspaces/IdeaProjects/ows-ffmpeg-demo/tmp/output/title/tile.png"
 
     @Test
     fun contextLoads() {
@@ -51,7 +54,7 @@ class OwsFfmpegDemoApplicationTests {
         log.info("开始转换")
         // Using the FFmpegProbeResult determine the duration of the input
         val output = VideoProcessor.compress(
-            File("/Users/xuliduo/Downloads/20210205_184816.mp4"),
+            File(sourceFile),
             fileName,
             videoProcessorProperties
         ) {
@@ -77,7 +80,7 @@ class OwsFfmpegDemoApplicationTests {
         stopWatch.start()
         log.info("开始生成")
         val output = VideoProcessor.makeTitle(
-            File("/Users/xuliduo/Downloads/20210205_184816.mp4"),
+            File(sourceFile),
             fileName,
             videoProcessorProperties
         ) {
@@ -94,7 +97,7 @@ class OwsFfmpegDemoApplicationTests {
         stopWatch.start()
         log.info("开始生成")
         val output = VideoProcessor.thumbnail(
-            File("/Users/xuliduo/Downloads/20210205_184816.mp4"),
+            File(sourceFile),
             fileName,
             videoProcessorProperties
         ) {
@@ -106,9 +109,23 @@ class OwsFfmpegDemoApplicationTests {
     }
 
     @Test
+    fun testImageContentCheck() {
+        val stopWatch = StopWatch()
+        stopWatch.start()
+        log.info("验证")
+        log.info(
+            ModerationImageContent(videoProcessorProperties).imageContentCheck(
+                File(titleFile)
+            )
+        )
+        log.info("耗时${stopWatch}")
+        stopWatch.stop()
+    }
+
+    @Test
     fun testFfprobe() {
         val ffprobe = FFprobe()
-        val probeResult: FFmpegProbeResult = ffprobe.probe("/Users/xuliduo/Downloads/20210205_184816.mp4")
+        val probeResult: FFmpegProbeResult = ffprobe.probe(sourceFile)
         val format = probeResult.getFormat()
         System.out.format(
             "%nFile: '%s' ; Format: '%s' ; Duration: %.3fs ; nb_streams: %d",

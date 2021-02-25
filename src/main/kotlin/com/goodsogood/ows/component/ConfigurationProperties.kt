@@ -19,6 +19,9 @@ class VideoProcessorProperties {
     @Valid
     var ffmpegConfigs: FFmpegConfigs = FFmpegConfigs()
 
+    @Valid
+    var huawei: Huawei = Huawei()
+
     // 抽样验证图片，最大10个
     // 系统会生成 2XN的title图，然后使用title图去进行内容审核
     @Range(min = 1, max = 10)
@@ -35,6 +38,7 @@ class VideoProcessorProperties {
     // 转码后的临时文件路径
     @NotEmpty
     var tempPath: String = ""
+
 }
 
 @Validated
@@ -94,4 +98,22 @@ class Video {
     var frameRate: Int = 15
     // 分辨率，只能是 480p，默认是480p
     //  val size: String = "480p"
+}
+
+/**
+ * 华为内容审核配置
+ */
+@Validated
+class Huawei {
+    // ak
+    var ak: String = ""
+
+    // sk
+    var sk: String = ""
+
+    // region
+    var region = "cn-north-4"
+
+    // 验证类型
+    var categories = mutableListOf("politics", "terrorism", "porn", "ad")
 }
