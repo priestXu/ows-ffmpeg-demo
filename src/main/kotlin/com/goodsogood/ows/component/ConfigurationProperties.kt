@@ -33,7 +33,9 @@ class VideoProcessorProperties {
     var thumbnailNum: Int = 3
 
     // 缩略图的copy size
-    var thumbnailSize: String = "200:200"
+    var thumbnailHeight: Int = 450
+    var thumbnailWidth: Int = 450
+    var thumbnailFillColor: String = "black"
 
     // 转码后的临时文件路径
     @NotEmpty

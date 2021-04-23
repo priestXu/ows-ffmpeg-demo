@@ -140,7 +140,12 @@ object VideoProcessor {
             // -f
             .setFormat("image2")
             // -vf
-            .setVideoFilter("crop=${properties.thumbnailSize},fps=1/${duration}")
+            // 中心抠出
+//            .setVideoFilter("crop=${properties.thumbnailWidth}:${properties.thumbnailHeight},fps=1/${duration}")
+            // 16:10比例压缩，空白填充
+            // .setVideoFilter("scale='if(gt(a,16/10),${properties.thumbnailWidth},-1)':'if(gt(a,16/10),-1,${properties.thumbnailHeight})', pad=w=${properties.thumbnailWidth}:h=${properties.thumbnailHeight}:x=(ow-iw)/2:y=(oh-ih)/2:color=${properties.thumbnailFillColor},fps=1/${duration}")
+            // 通过目标高宽压缩，空白填充
+            .setVideoFilter("scale=min(iw*${properties.thumbnailHeight}/ih\\,${properties.thumbnailWidth}):min(${properties.thumbnailHeight}\\,ih*${properties.thumbnailWidth}/iw),pad=${properties.thumbnailWidth}:${properties.thumbnailHeight}:(${properties.thumbnailWidth}-iw)/2:(${properties.thumbnailHeight}-ih)/2:${properties.thumbnailFillColor},fps=1/${duration}")
             .done()
         //
         val executor = FFmpegExecutor(FFmpeg(), FFprobe())

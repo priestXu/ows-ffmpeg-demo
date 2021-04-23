@@ -29,9 +29,9 @@ class OwsFfmpegDemoApplicationTests {
     val fileName: String = "output"
 
     // 跳舞
-    val sourceFile = "/Users/xuliduo/Downloads/Phut_Hon_Phao_KAIZ_Remix_1080p.mp4"
+    //val sourceFile = "/Users/xuliduo/Downloads/Phut_Hon_Phao_KAIZ_Remix_1080p.mp4"
     // 领导人
-    // val sourceFile = "/Users/xuliduo/Downloads/中华人民共和国成立70周年_中共中央总书记国家主席中央军委主席习近平发表重要讲话_CCTV_1080p.mp4"
+    val sourceFile = "/Users/xuliduo/Downloads/中华人民共和国成立70周年_中共中央总书记国家主席中央军委主席习近平发表重要讲话_CCTV_1080p.mp4"
     // pron
     // val sourceFile = "/Users/xuliduo/Downloads/1080P_8000K_341610861.mp4"
     val titleFile = "/Users/xuliduo/workspaces/IdeaProjects/ows-ffmpeg-demo/tmp/output/title/tile.png"
@@ -121,6 +121,12 @@ class OwsFfmpegDemoApplicationTests {
         log.info("验证")
         val imageCheckResult = ModerationImageContent(videoProcessorProperties).imageContentCheck(File(titleFile))
         log.info(imageCheckResult?.result?.suggestion)
+        if (imageCheckResult?.result?.suggestion == "block") {
+            log.info("ad:${imageCheckResult.result.category_suggestions.ad}")
+            log.info("politics:${imageCheckResult.result.category_suggestions.politics}")
+            log.info("porn:${imageCheckResult.result.category_suggestions.porn}")
+            log.info("terrorism:${imageCheckResult.result.category_suggestions.terrorism}")
+        }
         log.info("耗时${stopWatch}")
         stopWatch.stop()
     }
