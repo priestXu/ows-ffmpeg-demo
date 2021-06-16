@@ -8,8 +8,8 @@ vpc:
       bit-rate: 500
       frame-rate: 10
   huawei:
-    ak: ""
-    sk: ""
+    ak: "HSG1C2TMIMBGDAYUZGR6"
+    sk: "6ZYKEc1UC3b0efkJkZ417P5GJUHTZDLxamr6JmuP"
     region: "cn-north-4"
     categories:
       - politics
