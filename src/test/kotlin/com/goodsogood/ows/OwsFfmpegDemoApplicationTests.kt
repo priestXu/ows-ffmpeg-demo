@@ -29,12 +29,15 @@ class OwsFfmpegDemoApplicationTests {
     val fileName: String = "output"
 
     // 跳舞
-    //val sourceFile = "/Users/xuliduo/Downloads/Phut_Hon_Phao_KAIZ_Remix_1080p.mp4"
+    val sourceFile = "/Users/xuliduo/Downloads/Phut_Hon_Phao_KAIZ_Remix_1080p.mp4"
     // 领导人
-    val sourceFile = "/Users/xuliduo/Downloads/中华人民共和国成立70周年_中共中央总书记国家主席中央军委主席习近平发表重要讲话_CCTV_1080p.mp4"
+    // val sourceFile = "/Users/xuliduo/Downloads/中华人民共和国成立70周年_中共中央总书记国家主席中央军委主席习近平发表重要讲话_CCTV_1080p.mp4"
+
     // pron
     // val sourceFile = "/Users/xuliduo/Downloads/1080P_8000K_341610861.mp4"
     val titleFile = "/Users/xuliduo/workspaces/IdeaProjects/ows-ffmpeg-demo/tmp/output/title/tile.png"
+
+    val waterMark = "/Users/xuliduo/Pictures/头像/炮姐.png"
 
     @Test
     fun contextLoads() {
@@ -62,7 +65,8 @@ class OwsFfmpegDemoApplicationTests {
         val output = VideoProcessor.compress(
             File(sourceFile),
             fileName,
-            videoProcessorProperties
+            videoProcessorProperties,
+            waterMark
         ) {
             println(
                 String.format(
@@ -105,7 +109,7 @@ class OwsFfmpegDemoApplicationTests {
         val output = VideoProcessor.thumbnail(
             File(sourceFile),
             fileName,
-            videoProcessorProperties
+            videoProcessorProperties,
         ) {
             // do nothing
         }

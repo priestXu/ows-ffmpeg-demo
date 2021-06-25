@@ -28,15 +28,18 @@ object VideoProcessor {
      * @param source 源视频文件
      * @param fileName 目标文件名称（不用添加后缀，后缀通过配置文件添加）
      * @param properties 配置
+     * @param waterMark 水印路径
      * @param listener 任务进度监听实现
      * @return 压缩后的视频文件
      */
     @Throws(IOException::class, Exception::class)
+    @JvmOverloads
     fun compress(
         source: File,
         fileName: String,
         properties: VideoProcessorProperties,
-        listener: ProgressListener
+        waterMark: String? = null,
+        listener: ProgressListener,
     ): VideoOutput {
         if (!source.exists() || !source.isFile) {
             throw IOException("源文件不存在或者不是文件")
@@ -63,8 +66,16 @@ object VideoProcessor {
             .setVideoCodec(properties.ffmpegConfigs.video.codec)
             .setVideoFrameRate(properties.ffmpegConfigs.video.frameRate, 1)
             .setVideoResolution(VideoSize.hd480.asEncoderArgument())
+            // 水印
             // done
             .done()
+        // 水印
+        if (waterMark != null) {
+            builder.addInput(waterMark)
+                .setComplexFilter(properties.filterComplex)
+        }
+        // debug
+        // builder.setVerbosity(FFmpegBuilder.Verbosity.DEBUG)
         // 编码器
         val executor = FFmpegExecutor(FFmpeg(), FFprobe())
         // 转码
@@ -78,13 +89,16 @@ object VideoProcessor {
      * @param source 源视频文件
      * @param fileName 目标文件名称（不用添加后缀，后缀通过配置文件添加）
      * @param properties 配置
+     * @param waterMark 水印，当前方法没使用
      * @param listener 任务进度监听实现
      * @return title图
      */
+    @JvmOverloads
     fun makeTitle(
         source: File,
         fileName: String,
         properties: VideoProcessorProperties,
+        waterMark: String? = null,
         listener: ProgressListener
     ): VideoOutput {
         val probeResult: FFmpegProbeResult = FFprobe().probe(source.absolutePath)
@@ -106,7 +120,6 @@ object VideoProcessor {
             // frames
             .setFrames(1)
             .done()
-        //
         val executor = FFmpegExecutor(FFmpeg(), FFprobe())
         val job = executor.createJob(builder, listener)
         job.run()
@@ -147,7 +160,6 @@ object VideoProcessor {
             // 通过目标高宽压缩，空白填充
             .setVideoFilter("scale=min(iw*${properties.thumbnailHeight}/ih\\,${properties.thumbnailWidth}):min(${properties.thumbnailHeight}\\,ih*${properties.thumbnailWidth}/iw),pad=${properties.thumbnailWidth}:${properties.thumbnailHeight}:(${properties.thumbnailWidth}-iw)/2:(${properties.thumbnailHeight}-ih)/2:${properties.thumbnailFillColor},fps=1/${duration}")
             .done()
-        //
         val executor = FFmpegExecutor(FFmpeg(), FFprobe())
         val job = executor.createJob(builder, listener)
         job.run()

@@ -41,6 +41,9 @@ class VideoProcessorProperties {
     @NotEmpty
     var tempPath: String = ""
 
+    // 水印参数 30%透明度,宽最大为8分之一视频大小，放在右下角
+    val filterComplex: String = "[1][0]scale2ref=h=ow/mdar:w=iw/8[#A logo][bird];[#A logo]format=argb,colorchannelmixer=aa=0.3[#B logo transparent];[bird][#B logo transparent]overlay=main_w-overlay_w-10:main_h-overlay_h-10"
+
 }
 
 @Validated
